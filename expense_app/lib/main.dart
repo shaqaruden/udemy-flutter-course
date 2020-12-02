@@ -12,7 +12,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Personal Expenses',
-      theme: ThemeData(primarySwatch: Colors.purple),
+      theme: ThemeData(
+          primarySwatch: Colors.purple,
+          textTheme: ThemeData.light().textTheme.copyWith(
+                button: TextStyle(color: Colors.white),
+              )),
       home: MyHomePage(),
     );
   }
@@ -27,18 +31,48 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [
-    // Transaction(
-    //   id: 't1',
-    //   title: 'New Shoes',
-    //   amount: 69.99,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't2',
-    //   title: 'Groceries',
-    //   amount: 51.67,
-    //   date: DateTime.now(),
-    // ),
+    Transaction(
+      id: 't1',
+      title: 'New Shoes',
+      amount: 69.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Groceries',
+      amount: 51.67,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Groceries',
+      amount: 51.67,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Groceries',
+      amount: 51.67,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Groceries',
+      amount: 51.67,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Groceries',
+      amount: 51.67,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Groceries',
+      amount: 51.67,
+      date: DateTime.now(),
+    ),
   ];
 
   List<Transaction> get _recentTransactions {
@@ -48,12 +82,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String title, double amount, DateTime date) {
     final newTransaction = Transaction(
         id: DateTime.now().toString(),
         title: title,
         amount: amount,
-        date: DateTime.now());
+        date: date);
 
     setState(() {
       _transactions.add(newTransaction);
@@ -66,6 +100,12 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (_) {
           return NewTransaction(_addNewTransaction);
         });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((element) => element.id == id);
+    });
   }
 
   @override
@@ -84,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             Chart(_recentTransactions),
-            TransactionList(_transactions),
+            TransactionList(_transactions, _deleteTransaction),
           ],
         ),
       ),
